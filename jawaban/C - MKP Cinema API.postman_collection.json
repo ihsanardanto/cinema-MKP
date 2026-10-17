@@ -1,0 +1,781 @@
+{
+	"info": {
+		"_postman_id": "40b89c5d-26d6-4caa-b08b-7641e7c56ce6",
+		"name": "MKP Cinema API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34359751"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code===200) pm.collectionVariables.set(\"token\",pm.response.json().access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\": \"admin@example.com\", \"password\": \"ChangeMe123!\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"admin@example.com\", \"password\": \"ChangeMe123!\"}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:09:58 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "124"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"26975d90235372e61abcb0520743bed83dcdb573d367f836e6a5c3ef29f0937f\",\n    \"expires_in\": 3600,\n    \"token_type\": \"Bearer\"\n}"
+				},
+				{
+					"name": "Error - Invalid Credentials",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\": \"admin@example.com\", \"password\": \"wrong\"}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:14:49 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "32"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"invalid credentials\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code===201) pm.collectionVariables.set(\"id\",pm.response.json().id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let t=Date.now()+86400000; pm.collectionVariables.set(\"start\",new Date(t).toISOString()); pm.collectionVariables.set(\"end\",new Date(t+7200000).toISOString());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"movie_id\": 1, \"auditorium_id\": 1, \"starts_at\": \"{{start}}\", \"ends_at\": \"{{end}}\", \"price\": 50000}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/showtimes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"showtimes"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"movie_id\": 1, \"auditorium_id\": 1, \"starts_at\": \"{{start}}\", \"ends_at\": \"{{end}}\", \"price\": 50000}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/showtimes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:10:33 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "151"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"movie_id\": 1,\n    \"auditorium_id\": 1,\n    \"starts_at\": \"2026-10-18T03:10:33.836Z\",\n    \"ends_at\": \"2026-10-18T05:10:33.836Z\",\n    \"price\": 50000,\n    \"status\": \"scheduled\"\n}"
+				},
+				{
+					"name": "Overlap",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"movie_id\": 1, \"auditorium_id\": 1, \"starts_at\": \"{{start}}\", \"ends_at\": \"{{end}}\", \"price\": 50000}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/showtimes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:16:37 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "57"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"schedule overlaps or resource already exists\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/showtimes?limit=10&offset=0",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"showtimes"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/showtimes?limit=10&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:10:37 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "163"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"movie_id\": 1,\n        \"auditorium_id\": 1,\n        \"starts_at\": \"2026-10-18T11:10:33.836+08:00\",\n        \"ends_at\": \"2026-10-18T13:10:33.836+08:00\",\n        \"price\": 50000,\n        \"status\": \"scheduled\"\n    }\n]"
+				},
+				{
+					"name": "Error - Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/showtimes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 02:33:38 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"bearer token required\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Read",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/showtimes/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"showtimes",
+						"{{id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/showtimes/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes",
+								"{{id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:10:53 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "161"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"movie_id\": 1,\n    \"auditorium_id\": 1,\n    \"starts_at\": \"2026-10-18T11:10:33.836+08:00\",\n    \"ends_at\": \"2026-10-18T13:10:33.836+08:00\",\n    \"price\": 50000,\n    \"status\": \"scheduled\"\n}"
+				},
+				{
+					"name": "Error - Deleted Record",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/showtimes/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes",
+								"{{id}}"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:13:49 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "22"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"movie_id\": 1, \"auditorium_id\": 1, \"starts_at\": \"{{start}}\", \"ends_at\": \"{{end}}\", \"price\": 60000}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/showtimes/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"showtimes",
+						"{{id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"movie_id\": 1, \"auditorium_id\": 1, \"starts_at\": \"{{start}}\", \"ends_at\": \"{{end}}\", \"price\": 60000}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/showtimes/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes",
+								"{{id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:11:53 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "151"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"movie_id\": 1,\n    \"auditorium_id\": 1,\n    \"starts_at\": \"2026-10-18T03:10:33.836Z\",\n    \"ends_at\": \"2026-10-18T05:10:33.836Z\",\n    \"price\": 60000,\n    \"status\": \"scheduled\"\n}"
+				},
+				{
+					"name": "Error - Invalid Price",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"movie_id\": 1, \"auditorium_id\": 1, \"starts_at\": \"{{start}}\", \"ends_at\": \"{{end}}\", \"price\": -1}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/showtimes/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes",
+								"{{id}}"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:18:31 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "97"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"positive IDs/price and future, ordered timestamps required; status must be scheduled\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/showtimes/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"showtimes",
+						"{{id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/showtimes/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"showtimes",
+								"{{id}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 17 Oct 2026 03:12:30 GMT"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "start",
+			"value": ""
+		},
+		{
+			"key": "end",
+			"value": ""
+		}
+	]
+}

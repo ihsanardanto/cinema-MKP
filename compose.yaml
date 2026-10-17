@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: cinema
+      POSTGRES_PASSWORD: cinema_local_only
+      POSTGRES_DB: cinema
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cinema"]
+      interval: 2s
+      retries: 30
+  api:
+    build: .
+    ports: ["127.0.0.1:8080:8080"]
+    environment:
+      DATABASE_URL: postgres://cinema:cinema_local_only@db:5432/cinema?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  pgdata:
