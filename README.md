@@ -1,6 +1,5 @@
 # MKP / APPS2PAY - Backend Development Test
 
-**Nama Lengkap kandidat: [ISI NAMA LENGKAP ANDA]**
 Tanggal: Sabtu, 17 Oktober 2026 | Email: ihsanardanto@gmail.com | Telepon: 081237595265
 Repository: https://github.com/ihsanardanto/cinema-MKP
 
